@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:paddingBottom="@dimen/padding_linear_layout"
+    android:paddingLeft="@dimen/padding_linear_layout"
+    android:paddingRight="@dimen/padding_linear_layout"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/captcha_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:theme="@style/Widget.AppCompat.EditText"
+        android:textSize="@dimen/dialog_title"
+        android:text="@string/captcha_hint"/>
+
+    <ImageView
+        android:id="@+id/captchaImageView"
+        android:layout_width="300dp"
+        android:layout_height="140dp"
+        android:contentDescription="@string/captcha" />
+
+    <EditText
+        android:id="@+id/editCaptcha"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="15dp"
+        android:layout_marginTop="10dp"
+        android:inputType="number"
+        android:textSize="@dimen/dialog_text"
+        android:maxLength="6" />
+
+    <Button
+        android:id="@+id/btnCheck"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/menu_btn_margin_top"
+        android:background="@drawable/button_next"
+        android:text="@string/btn_check"
+        android:textColor="@color/manu_text"
+        android:textSize="@dimen/dialog_btn" />
+</LinearLayout>

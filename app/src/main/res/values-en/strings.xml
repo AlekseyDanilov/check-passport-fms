@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Checking passports</string>
+    <string name="captcha">Confirmation code</string>
+    <string name="captcha_hint">Confirmation code</string>
+    <string name="check">Check</string>
+    <string name="number">Number</string>
+    <string name="number_label">Number</string>
+    <string name="refresh">Refresh</string>
+    <string name="series">Series</string>
+    <string name="series_label">Series</string>
+    <string name="unsuccessful_response">FMS did not respond to your request.</string>
+    <string name="unknown_host_exception_msg">Error accessing FMS service.</string>
+    <string name="validation_error_msg">Incorrect data entered.</string>
+    <string name="without_internet_msg">When you haven\'t internet connection then the application cannot be running.</string>
+    <string name="next">Next</string>
+    <string name="connection_problem">Connection problem. Please, reconnect your internet and try again</string>
+    <string name="font_fontFamily_medium">sans-serif</string>
+    <string name="back">Back</string>
+    <string name="btn_check">Check</string>
+    <string name="btn_check_passport">Check passport</string>
+    <string name="btn_history">History Requests</string>
+    <string name="btn_licence">Proverka reality trudoustroystvo licenses for citizens of the Russian Federation on the territory of the Russian Federation Limit</string>
+    <string name="btn_new_request">New request</string>
+    <string name="Очистить">trash</string>
+    <string name="очистить">trash</string>
+    <string name="series_validation_error_msg">Series validation_error</string>
+    <string name="title_main_activity">Service FMS</string>
+    <string name="title_passport_activity">Check passport</string>
+    <string name="newRequest">New request</string>
+    <string name="clear">Clear</string>
+    <string name="clear_history">Clear history</string>
+    <string name="captcha_not_valid_msg">Captcha is not valid</string>
+    <string name="history">History</string>
+    <string name="request">Request</string>
+    <string name="share_msg">This application allows you to determine whether a passport valid for the territory of the Russian Federation.  https://play.google.com/store/apps/details?id=ru.android_studio.check_passport</string>
+    <string name="result">Result</string>
+    <string name="passport">Passport</string>
+    <string name="passport_info">Passport number</string>
+    <string name="banner_history_ad_unit_id">ca-app-pub-7157276789419592/4252060668</string>
+    <string name="banner_request_ad_unit_id">ca-app-pub-7157276789419592/2775327469</string>
+    <string name="result_captcha_invalid">Confirmation code is incorrect</string>
+    <string name="result_repeat">It is necessary to repeat the request</string>
+    <string name="result_success">Among the invalid does not appear</string>
+    <string name="result_expired">Has expired</string>
+    <string name="invalid_series">Invalid series passports</string>
+    <string name="menu_share">Share</string>
+    <string name="history_empty_list">History of queries will be displayed here</string>
+</resources>
