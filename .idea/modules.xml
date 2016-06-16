@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/check-passport-fms.iml" filepath="$PROJECT_DIR$/check-passport-fms.iml" />
       <module fileurl="file://$PROJECT_DIR$/checkPassportByFMS.iml" filepath="$PROJECT_DIR$/checkPassportByFMS.iml" />
     </modules>
   </component>

@@ -1,7 +1,9 @@
 package ru.android_studio.check_passport;
 
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
@@ -29,6 +31,7 @@ public class CaptchaFragment extends DialogFragment implements View.OnClickListe
 
     private static final String SERVICE_CAPTCHA = "http://services.fms.gov.ru/services/captcha.jpg";
     private static final String TAG = "CaptchaFragment";
+    private static final String DEBUG_TAG = "DEBUG_TAG CaptchaFragment";
 
     private PassportActivity passportActivity;
     private ImageView captchaImageView;
@@ -95,7 +98,7 @@ public class CaptchaFragment extends DialogFragment implements View.OnClickListe
 
         View view = inflater.inflate(R.layout.fragment_captcha, container);
 
-        Button btnCheck = (Button) view.findViewById(R.id.btnCheck);
+        Button btnCheck = (Button) view.findViewById(R.id.check_btn);
         btnCheck.setOnClickListener(passportActivity);
 
         captchaImageView = (ImageView) view.findViewById(R.id.captchaImageView);
@@ -153,11 +156,29 @@ public class CaptchaFragment extends DialogFragment implements View.OnClickListe
     }
 
     public void updateCaptchaImageBitmap() {
+        // declare the dialog as a member field of your activity
+        ProgressDialog mProgressDialog;
+
+        // instantiate it within the onCreate method
+        mProgressDialog = new ProgressDialog(getActivity());
+        mProgressDialog.setMessage("A message");
+        mProgressDialog.setIndeterminate(true);
+        mProgressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+        mProgressDialog.setCancelable(true);
         try {
-            this.captchaImageBitmap = new RetrieveCaptchaTask().execute().get();
+            final RetrieveCaptchaTask retrieveCaptchaTask = new RetrieveCaptchaTask();
+            AsyncTask<String, Void, Bitmap> execute = retrieveCaptchaTask.execute();
+            this.captchaImageBitmap = execute.get();
+            mProgressDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+                @Override
+                public void onCancel(DialogInterface dialog) {
+                    retrieveCaptchaTask.cancel(true);
+                }
+            });
         } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
         }
+
     }
 
     public Bitmap getCaptchaImageBitmap() {
@@ -173,9 +194,15 @@ public class CaptchaFragment extends DialogFragment implements View.OnClickListe
             HttpURLConnection connection = null;
             try {
                 connection = (HttpURLConnection) new URL(SERVICE_CAPTCHA).openConnection();
-                connection.connect();
+                connection.setReadTimeout(10000 /* milliseconds */);
+                connection.setConnectTimeout(15000 /* milliseconds */);
+                connection.setRequestMethod("GET");
+                connection.setDoInput(true);
 
-                if (connection.getResponseCode() == 200) {
+                // Starts the query
+                connection.connect();
+                int response = connection.getResponseCode();
+                if (response == 200) {
                     cookies = "";
                     for (String item : connection.getHeaderFields().get("Set-Cookie")) {
                         cookies += item.substring(0, item.indexOf(";") + 1);

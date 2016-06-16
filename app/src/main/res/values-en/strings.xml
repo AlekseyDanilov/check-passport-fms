@@ -14,7 +14,7 @@
     <string name="validation_error_msg">Incorrect data entered.</string>
     <string name="without_internet_msg">When you haven\'t internet connection then the application cannot be running.</string>
     <string name="next">Next</string>
-    <string name="connection_problem">Connection problem. Please, reconnect your internet and try again</string>
+    <string name="toast_error_internet_unavailable">Connection problem. Please, reconnect your internet and try again</string>
     <string name="font_fontFamily_medium">sans-serif</string>
     <string name="back">Back</string>
     <string name="btn_check">Check</string>

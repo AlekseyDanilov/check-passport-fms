@@ -33,7 +33,7 @@
         android:maxLength="6" />
 
     <Button
-        android:id="@+id/btnCheck"
+        android:id="@+id/check_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/menu_btn_margin_top"

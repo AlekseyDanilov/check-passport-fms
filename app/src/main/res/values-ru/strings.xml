@@ -16,7 +16,7 @@
     <string name="next">Далее</string>
     <string name="clear">Очистить</string>
     <string name="back">Назад</string>
-    <string name="connection_problem">Ошибка подключения. Подключите интернет и повторите проверку.</string>
+    <string name="toast_error_internet_unavailable">Ошибка подключения. Подключите интернет и повторите проверку.</string>
     <string name="btn_new_request">Новый запрос</string>
     <string name="очистить">Очистить</string>
     <string name="Очистить">Очистить</string>

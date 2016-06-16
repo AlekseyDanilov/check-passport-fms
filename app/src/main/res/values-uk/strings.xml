@@ -23,7 +23,7 @@
     <string name="captcha_not_valid_msg">Невірний код підтвердження.</string>
     <string name="clear">Очистити</string>
     <string name="clear_history">Очистити історію</string>
-    <string name="connection_problem">Помилка підключення. Підключіть інтернет і повторіть перевірку.</string>
+    <string name="toast_error_internet_unavailable">Помилка підключення. Підключіть інтернет і повторіть перевірку.</string>
     <string name="font_fontFamily_medium">sans-serif</string>
     <string name="newRequest">Новий запит</string>
     <string name="series_validation_error_msg">Некоректна серія паспорта</string>

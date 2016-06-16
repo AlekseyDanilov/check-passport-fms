@@ -1,15 +1,20 @@
 apply plugin: 'com.android.application'
+apply plugin: 'spoon'
 
 android {
     compileSdkVersion 23
-    buildToolsVersion "23.0.2"
+    buildToolsVersion "23.0.3"
+
     defaultConfig {
         applicationId 'ru.android_studio.check_passport'
         minSdkVersion 15
         targetSdkVersion 23
         versionCode 4
         versionName "1.4"
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
+
     signingConfigs {
         release {
             /*storeFile file("storeFile")
@@ -18,36 +23,83 @@ android {
             keyPassword "keyPassword"*/
         }
     }
+
     buildTypes {
+        debug {
+            testCoverageEnabled false
+            debuggable true
+        }
+
         release {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
         }
     }
+
     productFlavors {
+    }
+
+    packagingOptions {
+        exclude 'LICENSE.txt'
+    }
+
+    /*
+    packagingOptions {
+        exclude 'META-INF/services/javax.annotation.processing.Processor'
+        exclude 'LICENSE.txt'
+        exclude 'LICENSE'
+        exclude 'NOTICE'
+        exclude 'asm-license.txt'
+    }
+    * */
+
+    lintOptions {
+        abortOnError false
+    }
+
+    testOptions {
+        unitTests.returnDefaultValues = true
     }
 }
 
+spoon {
+    // for debug output
+    debug = true;
+    //adbTimeout = 30;
+
+    // To run a single test class
+    // className = 'fully.qualified.TestCase'
+
+    // To run a single method in TestCase
+    // methodName = 'testMyApp'
+
+    /* You can configure spoon to calculate code coverage by using codeCoverage property on spoon extension */
+    codeCoverage = false
+
+    // Указать конкретное устройство (по умолчанию все)
+    // devices = ['333236E9AE5800EC']
+}
+
 dependencies {
+    // App's dependencies
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    testCompile 'junit:junit:4.12'
-    // tests
-    androidTestCompile 'com.android.support.test.espresso:espresso-core:2.0'
-    androidTestCompile 'com.android.support.test:testing-support-lib:0.1'
-    androidTestCompile('com.android.support.test.espresso:espresso-contrib:2.0') {
-        exclude group: 'com.android.support', module: 'appcompat'
-        exclude group: 'com.android.support', module: 'support-v4'
-        exclude module: 'recyclerview-v7'
-    }
-    compile 'com.android.support:design:23.1.1'
-    compile 'com.android.support:appcompat-v7:23.1.1'
+    compile 'com.android.support:design:23.4.0'
+    compile 'com.android.support:appcompat-v7:23.4.0'
+    compile 'com.android.support:support-v4:23.4.0'
+    compile 'com.android.support:recyclerview-v7:23.4.0'
+
     compile 'com.google.android.gms:play-services:8.4.0'
-    compile 'com.android.support:support-v4:23.1.1'
-    compile 'com.android.support:recyclerview-v7:23.1.1'
     compile 'com.google.android.gms:play-services-appindexing:8.4.0'
     compile 'com.google.android.gms:play-services-analytics:8.4.0'
     compile 'com.google.android.gms:play-services-ads:8.4.0'
+
+    // Testing-only dependencies
+    androidTestCompile 'com.squareup.spoon:spoon-client:1.5.4'
+    androidTestCompile 'com.android.support:support-annotations:23.4.0'
+    androidTestCompile 'com.android.support.test:runner:0.5'
+    androidTestCompile 'com.android.support.test:rules:0.5'
+    androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.2'
 }
 
 apply plugin: 'com.google.gms.google-services'

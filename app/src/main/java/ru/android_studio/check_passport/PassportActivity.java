@@ -243,10 +243,10 @@ public class PassportActivity extends AppCompatActivity implements View.OnClickL
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.btnNext:
+            case R.id.request_btn:
                 showCaptchaDialogFragment();
                 break;
-            case R.id.btnCheck:
+            case R.id.check_btn:
                 try {
                     passportFragment = (PassportFragment) adapter.getItem(0);
                     EditText captchaEditText = captchaFragment.getCaptchaEditText();
@@ -288,7 +288,7 @@ public class PassportActivity extends AppCompatActivity implements View.OnClickL
                                 .setAction(ActionTracker.CAPTCHA_NOT_VALID.name())
                                 .build());
 
-                        Toast.makeText(this, getString(R.string.connection_problem), Toast.LENGTH_LONG).show();
+                        Toast.makeText(this, getString(R.string.toast_error_internet_unavailable), Toast.LENGTH_LONG).show();
                         return;
                     } else {
                         String actionResponse = ActionTracker.RESPONSE.name() + " " + getString(passport.getTypicalResponse().getDescription());
@@ -333,7 +333,7 @@ public class PassportActivity extends AppCompatActivity implements View.OnClickL
         captchaFragment = new CaptchaFragment();
 
         if (captchaFragment.getIsConnectionProblem()) {
-            Toast.makeText(this, getString(R.string.connection_problem), Toast.LENGTH_LONG).show();
+            Toast.makeText(this, getString(R.string.toast_error_internet_unavailable), Toast.LENGTH_LONG).show();
             return;
         }
 

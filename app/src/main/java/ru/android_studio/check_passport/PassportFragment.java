@@ -64,7 +64,7 @@ public class PassportFragment extends Fragment implements View.OnClickListener {
 
         numberEditText = (EditText) view.findViewById(R.id.number);
 
-        view.findViewById(R.id.btnNext).setOnClickListener(passportActivity);
+        view.findViewById(R.id.request_btn).setOnClickListener(passportActivity);
         view.findViewById(R.id.btnClear).setOnClickListener(this);
 
         AdRequest adRequest = new AdRequest.Builder().build();

@@ -57,7 +57,9 @@ public class HistoryFragment extends Fragment implements View.OnClickListener {
 
         AdRequest adRequest = new AdRequest.Builder().build();
         AdView mAdView = (AdView) view.findViewById(R.id.adView);
-        mAdView.loadAd(adRequest);
+        if(mAdView != null) {
+            mAdView.loadAd(adRequest);
+        }
 
         initHistoryList();
         listView = (ListView) view.findViewById(R.id.listView);
