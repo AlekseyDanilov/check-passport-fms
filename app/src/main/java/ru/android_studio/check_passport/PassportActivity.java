@@ -331,6 +331,8 @@ public class PassportActivity extends AppCompatActivity implements View.OnClickL
 
     private void showCaptchaDialogFragment() {
         captchaFragment = new CaptchaFragment();
+        captchaFragment.setPassportActivity(this);
+        captchaFragment.updateCaptchaImageBitmap();
 
         if (captchaFragment.getIsConnectionProblem()) {
             Toast.makeText(this, getString(R.string.toast_error_internet_unavailable), Toast.LENGTH_LONG).show();

@@ -1,9 +1,10 @@
 apply plugin: 'com.android.application'
 apply plugin: 'spoon'
+apply plugin: "jacoco"
 
 android {
     compileSdkVersion 23
-    buildToolsVersion "23.0.3"
+    buildToolsVersion '23.0.3'
 
     defaultConfig {
         applicationId 'ru.android_studio.check_passport'
@@ -35,9 +36,6 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
         }
-    }
-
-    productFlavors {
     }
 
     packagingOptions {
@@ -76,9 +74,6 @@ spoon {
 
     /* You can configure spoon to calculate code coverage by using codeCoverage property on spoon extension */
     codeCoverage = false
-
-    // Указать конкретное устройство (по умолчанию все)
-    // devices = ['333236E9AE5800EC']
 }
 
 dependencies {
@@ -102,4 +97,8 @@ dependencies {
     androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.2'
 }
 
+jacoco {
+    toolVersion = "0.7.6.201602180812"
+    reportsDir = file("$buildDir/customJacocoReportDir")
+}
 apply plugin: 'com.google.gms.google-services'

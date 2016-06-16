@@ -3,9 +3,9 @@ package ru.android_studio.check_passport;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -61,9 +61,10 @@ public class CaptchaFragment extends DialogFragment implements View.OnClickListe
     private String cookies;
     private Boolean isConnectionProblem = false;
     private Bitmap captchaImageBitmap;
+    private Context context;
 
     public CaptchaFragment() {
-        updateCaptchaImageBitmap();
+
     }
 
     public String getCookies() {
@@ -76,15 +77,6 @@ public class CaptchaFragment extends DialogFragment implements View.OnClickListe
 
     public EditText getCaptchaEditText() {
         return captchaEditText;
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-
-        if (context instanceof PassportActivity) {
-            passportActivity = (PassportActivity) context;
-        }
     }
 
     @Override
@@ -156,25 +148,10 @@ public class CaptchaFragment extends DialogFragment implements View.OnClickListe
     }
 
     public void updateCaptchaImageBitmap() {
-        // declare the dialog as a member field of your activity
-        ProgressDialog mProgressDialog;
-
-        // instantiate it within the onCreate method
-        mProgressDialog = new ProgressDialog(getActivity());
-        mProgressDialog.setMessage("A message");
-        mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-        mProgressDialog.setCancelable(true);
         try {
             final RetrieveCaptchaTask retrieveCaptchaTask = new RetrieveCaptchaTask();
             AsyncTask<String, Void, Bitmap> execute = retrieveCaptchaTask.execute();
             this.captchaImageBitmap = execute.get();
-            mProgressDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
-                @Override
-                public void onCancel(DialogInterface dialog) {
-                    retrieveCaptchaTask.cancel(true);
-                }
-            });
         } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
         }
@@ -187,6 +164,12 @@ public class CaptchaFragment extends DialogFragment implements View.OnClickListe
 
     public void setCaptchaImageBitmap(Bitmap captchaImageBitmap) {
         this.captchaImageBitmap = captchaImageBitmap;
+    }
+
+    private ProgressDialog progressDialog;
+
+    public void setPassportActivity(PassportActivity passportActivity) {
+        this.passportActivity = passportActivity;
     }
 
     private class RetrieveCaptchaTask extends AsyncTask<String, Void, Bitmap> {
@@ -223,6 +206,24 @@ public class CaptchaFragment extends DialogFragment implements View.OnClickListe
             return null;
         }
 
+
+        protected void onPreExecute() {
+            if (progressDialog == null) {
+                progressDialog = new ProgressDialog(passportActivity);
+                try {
+                    progressDialog.show();
+                } catch (Exception e) {
+                    Log.e(TAG, e.getMessage());
+                }
+
+                progressDialog.setCancelable(false);
+                progressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+                progressDialog.setContentView(R.layout.progress_dialog);
+            } else {
+                progressDialog.show();
+            }
+        }
+
         @Override
         protected void onPostExecute(Bitmap result) {
             if (result != null) {
@@ -230,6 +231,7 @@ public class CaptchaFragment extends DialogFragment implements View.OnClickListe
             } else {
                 setIsConnectionProblem(true);
             }
+            progressDialog.dismiss();
         }
     }
 }

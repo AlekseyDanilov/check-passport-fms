@@ -1,6 +1,6 @@
 package ru.android_studio.check_passport;
 
-import android.support.test.espresso.NoMatchingRootException;
+import android.support.test.espresso.assertion.ViewAssertions;
 import android.support.test.filters.LargeTest;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
@@ -12,19 +12,18 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import java.lang.reflect.InvocationTargetException;
-
 import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.action.ViewActions.actionWithAssertions;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
+import static android.support.test.espresso.action.ViewActions.pressBack;
+import static android.support.test.espresso.action.ViewActions.swipeLeft;
+import static android.support.test.espresso.action.ViewActions.swipeRight;
 import static android.support.test.espresso.action.ViewActions.typeText;
-import static android.support.test.espresso.assertion.ViewAssertions.doesNotExist;
-import static android.support.test.espresso.matcher.RootMatchers.withDecorView;
+import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
-import static android.support.test.espresso.matcher.ViewMatchers.withText;
-import static junit.framework.Assert.assertTrue;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.not;
+
+
 
 @RunWith(AndroidJUnit4.class)
 //@SdkSuppress(minSdkVersion = 15)
@@ -71,31 +70,48 @@ public class PassportActivityTest {
     }
 
     @Test
-    public void validRequestParams() {
-        Spoon.screenshot(activity, "initial_state");
-
+    public void testCaptchaLoading() {
+        Spoon.screenshot(activity, "start");
         // @TODO Выключить WI-FI
         RequestParam requestParam = RequestParam.EXPIRED;
 
-        onView(withId(R.id.series)).perform(typeText(requestParam.getSeries()), closeSoftKeyboard());
-        onView(withId(R.id.number)).perform(typeText(requestParam.getNumber()), closeSoftKeyboard());
+        onView(withId(R.id.series)).perform(actionWithAssertions(typeText(requestParam.getSeries())), closeSoftKeyboard());
+        Spoon.screenshot(activity, "series");
+
+        onView(withId(R.id.number)).perform(actionWithAssertions(typeText(requestParam.getNumber())), closeSoftKeyboard());
+        Spoon.screenshot(activity, "number");
 
         // @TODO Исправить проблему с зависанием по клику
         // ошибка подключения
-        // onView(withId(R.id.request_btn)).perform(click());
+        onView(withId(R.id.request_btn)).perform(actionWithAssertions(click()));
+        Spoon.screenshot(activity, "loading");
 
-        boolean exceptionCaptured = false;
-        try {
-            onView(withText(R.string.toast_error_internet_unavailable))
-                    .inRoot(withDecorView(not(is(activity.getWindow().getDecorView()))))
-                    .check(doesNotExist());
-
-        } catch (NoMatchingRootException e) {
-            exceptionCaptured = true;
-        } finally {
-            assertTrue(exceptionCaptured);
-        }
-
+        onView(withId(R.id.fragment_captcha)).check(ViewAssertions.matches(isDisplayed()));
         Spoon.screenshot(activity, "after_login");
+    }
+
+    @Test
+    public void testCaptchaLoadingAndClose() {
+        testCaptchaLoading();
+        onView(withId(R.id.fragment_captcha)).perform(actionWithAssertions(pressBack()));
+        Spoon.screenshot(activity, "end");
+    }
+
+    @Test
+    public void swipeToHistory() {
+        Spoon.screenshot(activity, "start");
+        onView(withId(R.id.fragment_passport)).perform(actionWithAssertions(swipeLeft()));
+        Spoon.screenshot(activity, "end");
+    }
+
+    @Test
+    public void swipeBackToPassport() {
+        Spoon.screenshot(activity, "start");
+
+        onView(withId(R.id.fragment_passport)).perform(actionWithAssertions(swipeLeft()));
+
+        onView(withId(R.id.fragment_history)).perform(actionWithAssertions(swipeRight()));
+
+        Spoon.screenshot(activity, "end");
     }
 }
