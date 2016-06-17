@@ -1,5 +1,7 @@
 package ru.android_studio.check_passport;
 
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.test.espresso.assertion.ViewAssertions;
 import android.support.test.filters.LargeTest;
 import android.support.test.rule.ActivityTestRule;
@@ -23,17 +25,12 @@ import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 
-
-
 @RunWith(AndroidJUnit4.class)
-//@SdkSuppress(minSdkVersion = 15)
 @LargeTest
 public class PassportActivityTest {
 
     @Rule
     public ActivityTestRule<PassportActivity> activityActivityTestRule = new ActivityTestRule<>(PassportActivity.class);
-
-    private String TAG = "PassportActivityTest";
 
     private PassportActivity activity;
 
@@ -69,8 +66,13 @@ public class PassportActivityTest {
         }
     }
 
+    /*
+    *   Тестирование загрузки капчи
+    * */
     @Test
     public void testCaptchaLoading() {
+        clearAppInfo();
+
         Spoon.screenshot(activity, "start");
         // @TODO Выключить WI-FI
         RequestParam requestParam = RequestParam.EXPIRED;
@@ -85,11 +87,15 @@ public class PassportActivityTest {
         // ошибка подключения
         onView(withId(R.id.request_btn)).perform(actionWithAssertions(click()));
         Spoon.screenshot(activity, "loading");
-
         onView(withId(R.id.fragment_captcha)).check(ViewAssertions.matches(isDisplayed()));
         Spoon.screenshot(activity, "after_login");
+
+        //Spoon.save(activity, new File(activity.getCacheDir(), "fms-service.db"));
     }
 
+    /*
+    * Загрузка капчи и закрытие экрана по кнопки back
+    * */
     @Test
     public void testCaptchaLoadingAndClose() {
         testCaptchaLoading();
@@ -97,6 +103,9 @@ public class PassportActivityTest {
         Spoon.screenshot(activity, "end");
     }
 
+    /*
+    * Слайд на страницу истории
+    * */
     @Test
     public void swipeToHistory() {
         Spoon.screenshot(activity, "start");
@@ -104,14 +113,23 @@ public class PassportActivityTest {
         Spoon.screenshot(activity, "end");
     }
 
+    /*
+    * Слайды влево - вправо
+    * */
     @Test
     public void swipeBackToPassport() {
         Spoon.screenshot(activity, "start");
-
         onView(withId(R.id.fragment_passport)).perform(actionWithAssertions(swipeLeft()));
-
         onView(withId(R.id.fragment_history)).perform(actionWithAssertions(swipeRight()));
-
         Spoon.screenshot(activity, "end");
+    }
+
+    /*
+    * Очистка Базы данных
+    * */
+    public void clearAppInfo() {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(activity);
+        preferences.edit().clear().apply();
+        activity.deleteDatabase("fms-service.db");
     }
 }

@@ -6,34 +6,34 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import ru.android_studio.check_passport.model.TypicalResponse;
-
 import java.util.AbstractList;
 import java.util.ArrayList;
 
-public class PassportDBHelper extends SQLiteOpenHelper {
+import ru.android_studio.check_passport.model.TypicalResponse;
 
-    public static final String DATABASE_NAME = "fms-service";
+public class DatabaseHelper extends SQLiteOpenHelper {
+
+    public static final String DB_NAME = "fms-service";
     public static final String TABLE_NAME = "passport";
     public static final String COLUMN_ID = "id";
     public static final String COLUMN_SERIES = "series";
     public static final String COLUMN_NUMBER = "number";
     public static final String COLUMN_RESULT = "result";
-    private static final int DATABASE_VERSION = 1;
+    private static final int DB_VERSION = 1;
 
-    public PassportDBHelper(Context context) {
-        super(context, DATABASE_NAME, null, DATABASE_VERSION);
+    public DatabaseHelper(Context context) {
+        super(context, DB_NAME, null, DB_VERSION);
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("CREATE TABLE " + TABLE_NAME +
-                        " ( " +
-                        COLUMN_ID + " INTEGER PRIMARY KEY," +
-                        COLUMN_SERIES + " TEXT," +
-                        COLUMN_NUMBER + " TEXT," +
-                        COLUMN_RESULT + " TEXT" +
-                        " )"
+                " ( " +
+                COLUMN_ID + " INTEGER PRIMARY KEY," +
+                COLUMN_SERIES + " TEXT," +
+                COLUMN_NUMBER + " TEXT," +
+                COLUMN_RESULT + " TEXT" +
+                " )"
         );
     }
 
@@ -74,6 +74,7 @@ public class PassportDBHelper extends SQLiteOpenHelper {
             arrayList.add(passport);
             cursor.moveToNext();
         }
+        cursor.close();
         return arrayList;
     }
 }

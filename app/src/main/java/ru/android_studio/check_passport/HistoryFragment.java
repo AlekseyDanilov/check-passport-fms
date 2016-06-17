@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.Map;
 
 public class HistoryFragment extends Fragment implements View.OnClickListener {
-    private PassportDBHelper passportDBHelper;
+    private DatabaseHelper databaseHelper;
     private PassportActivity passportActivity;
     private PassportBaseAdapter adapter;
     private ListView listView;
@@ -37,7 +37,7 @@ public class HistoryFragment extends Fragment implements View.OnClickListener {
 
         if (context instanceof PassportActivity) {
             passportActivity = (PassportActivity) context;
-            this.passportDBHelper = new PassportDBHelper(passportActivity);
+            this.databaseHelper = new DatabaseHelper(passportActivity);
         }
     }
 
@@ -74,7 +74,7 @@ public class HistoryFragment extends Fragment implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btnClearHistory:
-                passportDBHelper.clear();
+                databaseHelper.clear();
                 clearHistoryList();
                 adapter.clearList();
                 adapter.notifyDataSetChanged();
@@ -85,12 +85,12 @@ public class HistoryFragment extends Fragment implements View.OnClickListener {
 
     private HashMap<String, String> getHashMapByPassport(@NonNull Passport passport) {
         HashMap<String, String> passportHashMap = new HashMap<>();
-        passportHashMap.put(PassportDBHelper.COLUMN_SERIES, passport.getSeries());
-        passportHashMap.put(PassportDBHelper.COLUMN_NUMBER, passport.getNumber());
+        passportHashMap.put(DatabaseHelper.COLUMN_SERIES, passport.getSeries());
+        passportHashMap.put(DatabaseHelper.COLUMN_NUMBER, passport.getNumber());
 
         TypicalResponse typicalResponse = passport.getTypicalResponse();
         if (typicalResponse != null) {
-            passportHashMap.put(PassportDBHelper.COLUMN_RESULT,
+            passportHashMap.put(DatabaseHelper.COLUMN_RESULT,
                     getString(typicalResponse.getDescription()));
         }
         return passportHashMap;
@@ -99,7 +99,7 @@ public class HistoryFragment extends Fragment implements View.OnClickListener {
     private void initHistoryList() {
         if (historyList == null) {
             historyList = new ArrayList<>();
-            AbstractList<Passport> passports = passportDBHelper.getAll();
+            AbstractList<Passport> passports = databaseHelper.getAll();
             if (passports.isEmpty()) {
                 btnClearHistory.setVisibility(View.GONE);
             } else {
@@ -119,9 +119,9 @@ public class HistoryFragment extends Fragment implements View.OnClickListener {
 
     private HashMap<String, String> getHeaders() {
         HashMap<String, String> passportHashMap = new HashMap<>();
-        passportHashMap.put(PassportDBHelper.COLUMN_SERIES, getString(R.string.passport_info));
-        passportHashMap.put(PassportDBHelper.COLUMN_NUMBER, "");
-        passportHashMap.put(PassportDBHelper.COLUMN_RESULT, getString(R.string.result));
+        passportHashMap.put(DatabaseHelper.COLUMN_SERIES, getString(R.string.passport_info));
+        passportHashMap.put(DatabaseHelper.COLUMN_NUMBER, "");
+        passportHashMap.put(DatabaseHelper.COLUMN_RESULT, getString(R.string.result));
 
         return passportHashMap;
     }

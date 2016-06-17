@@ -1,5 +1,7 @@
 package ru.android_studio.check_passport;
 
+import android.app.ProgressDialog;
+import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
@@ -16,14 +18,14 @@ public class SmevService {
 
     private static final String SMEV_URL = "http://services.fms.gov.ru/info-service.htm?sid=2000&form_name=form&DOC_SERIE=%s&DOC_NUMBER=%s&captcha-input=%s";
     private static final String TAG = "SMEV";
-    private PassportDBHelper passportDBHelper;
-    private PassportActivity activity;
+    private DatabaseHelper databaseHelper;
+    private PassportActivity passportActivity;
     private String cookies;
     private TypicalResponse smevResult;
 
     public SmevService(PassportActivity passportActivity) {
-        this.activity = passportActivity;
-        this.passportDBHelper = new PassportDBHelper(passportActivity);
+        this.passportActivity = passportActivity;
+        this.databaseHelper = new DatabaseHelper(passportActivity);
     }
 
     public Passport request(Passport passport) {
@@ -35,7 +37,7 @@ public class SmevService {
         try {
             smevResult = new RetrieveSmevTask().execute(series, number, captchaStr).get();
             if (smevResult == TypicalResponse.CAPTCHA_NOT_VALID) {
-                Toast.makeText(activity, activity.getString(R.string.captcha_not_valid_msg), Toast.LENGTH_LONG).show();
+                Toast.makeText(passportActivity, passportActivity.getString(R.string.captcha_not_valid_msg), Toast.LENGTH_LONG).show();
                 return null;
             }
         } catch (Throwable e) {
@@ -48,7 +50,7 @@ public class SmevService {
         }
 
         if (smevResult == TypicalResponse.NOT_VALID || smevResult == TypicalResponse.VALID_1 || smevResult == TypicalResponse.VALID_2) {
-            passportDBHelper.insert(series, number, smevResult.getResult());
+            databaseHelper.insert(series, number, smevResult.getResult());
         }
 
         passport.setTypicalResponse(TypicalResponse.findByResult(smevResult.getResult()));
@@ -89,6 +91,26 @@ public class SmevService {
         @Override
         protected void onPostExecute(TypicalResponse smevResponse) {
             smevResult = smevResponse;
+            progressDialog.dismiss();
+        }
+
+        protected void onPreExecute() {
+            if (progressDialog == null) {
+                progressDialog = new ProgressDialog(passportActivity);
+                try {
+                    progressDialog.show();
+                } catch (Exception e) {
+                    Log.e(TAG, e.getMessage());
+                }
+
+                progressDialog.setCancelable(false);
+                progressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+                progressDialog.setContentView(R.layout.progress_dialog);
+            } else {
+                progressDialog.show();
+            }
         }
     }
+
+    private ProgressDialog progressDialog;
 }

@@ -206,7 +206,6 @@ public class CaptchaFragment extends DialogFragment implements View.OnClickListe
             return null;
         }
 
-
         protected void onPreExecute() {
             if (progressDialog == null) {
                 progressDialog = new ProgressDialog(passportActivity);

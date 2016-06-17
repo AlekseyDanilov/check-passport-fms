@@ -53,12 +53,12 @@ public class PassportBaseAdapter extends BaseAdapter {
 
         Map<String, String> map = list.get(position);
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append(map.get(PassportDBHelper.COLUMN_SERIES));
+        stringBuilder.append(map.get(DatabaseHelper.COLUMN_SERIES));
         stringBuilder.append(" ");
-        stringBuilder.append(map.get(PassportDBHelper.COLUMN_NUMBER));
+        stringBuilder.append(map.get(DatabaseHelper.COLUMN_NUMBER));
         passport.setText(stringBuilder);
 
-        String resultStr = map.get(PassportDBHelper.COLUMN_RESULT);
+        String resultStr = map.get(DatabaseHelper.COLUMN_RESULT);
         result.setText(resultStr);
         if (position != 0) {
             result.setTextColor(TypicalResponse.findByResult(resultStr).getColor(inflater.getContext()));
