@@ -67,9 +67,14 @@ public class PassportFragment extends Fragment implements View.OnClickListener {
         view.findViewById(R.id.request_btn).setOnClickListener(passportActivity);
         view.findViewById(R.id.btnClear).setOnClickListener(this);
 
-        AdRequest adRequest = new AdRequest.Builder().build();
+        AdRequest adRequest = new AdRequest.Builder()
+                //.addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+                //.addTestDevice("TEST_DEVICE_ID")
+                .build();
         AdView mAdView = (AdView) view.findViewById(R.id.adView);
-        mAdView.loadAd(adRequest);
+        if(mAdView != null) {
+            mAdView.loadAd(adRequest);
+        }
 
         return view;
     }

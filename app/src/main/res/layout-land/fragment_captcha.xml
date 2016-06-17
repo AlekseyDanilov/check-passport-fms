@@ -16,7 +16,7 @@
         android:contentDescription="@string/captcha" />
 
     <EditText
-        android:id="@+id/editCaptcha"
+        android:id="@+id/captcha_et"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="15dp"

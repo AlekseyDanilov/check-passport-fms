@@ -37,7 +37,7 @@ public class SmevService {
         try {
             smevResult = new RetrieveSmevTask().execute(series, number, captchaStr).get();
             if (smevResult == TypicalResponse.CAPTCHA_NOT_VALID) {
-                Toast.makeText(passportActivity, passportActivity.getString(R.string.captcha_not_valid_msg), Toast.LENGTH_LONG).show();
+                Toast.makeText(passportActivity, passportActivity.getString(R.string.toast_error_captcha_not_valid), Toast.LENGTH_LONG).show();
                 return null;
             }
         } catch (Throwable e) {

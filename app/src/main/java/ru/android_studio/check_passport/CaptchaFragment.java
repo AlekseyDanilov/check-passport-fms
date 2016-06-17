@@ -97,7 +97,7 @@ public class CaptchaFragment extends DialogFragment implements View.OnClickListe
         captchaImageView.setOnClickListener(this);
         captchaImageView.setImageBitmap(getCaptchaImageBitmap());
 
-        captchaEditText = (EditText) view.findViewById(R.id.editCaptcha);
+        captchaEditText = (EditText) view.findViewById(R.id.captcha_et);
         captchaEditText.addTextChangedListener(captchaTextWatcher);
         captchaEditText.requestFocus();
 

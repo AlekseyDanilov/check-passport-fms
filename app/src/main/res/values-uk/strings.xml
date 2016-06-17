@@ -20,7 +20,7 @@
     <string name="btn_history">Історія запитів</string>
     <string name="btn_licence">Перевірка дійсності ліцензій на працевлаштування громадян Російської Федерації за межами території Російської Федерації</string>
     <string name="btn_new_request">Новий запит</string>
-    <string name="captcha_not_valid_msg">Невірний код підтвердження.</string>
+    <string name="toast_error_captcha_not_valid">Невірний код підтвердження.</string>
     <string name="clear">Очистити</string>
     <string name="clear_history">Очистити історію</string>
     <string name="toast_error_internet_unavailable">Помилка підключення. Підключіть інтернет і повторіть перевірку.</string>
