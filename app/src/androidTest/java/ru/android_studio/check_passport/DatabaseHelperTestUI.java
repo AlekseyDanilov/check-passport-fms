@@ -15,7 +15,7 @@ import static org.junit.Assert.assertThat;
 * */
 public class DatabaseHelperTestUI extends TestUI<PassportActivity> {
 
-        /**
+    /**
      * Добавить одну строку в БД
      */
     @Test
