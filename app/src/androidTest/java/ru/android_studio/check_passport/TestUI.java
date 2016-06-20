@@ -26,7 +26,7 @@ import ru.android_studio.check_passport.pageObject.RequestPage;
 public class TestUI<T extends Activity> {
 
     @Rule
-    private ActivityTestRule<T> activityTestRule = new ActivityTestRule<T>(clazz());
+    public ActivityTestRule<T> activityTestRule = new ActivityTestRule<T>(clazz());
 
     protected Class<T> clazz() {
         return (Class<T>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
