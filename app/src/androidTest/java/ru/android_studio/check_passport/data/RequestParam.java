@@ -4,8 +4,9 @@ package ru.android_studio.check_passport.data;
 * Параметры для "Страницы запроса"
 * */
 public enum RequestParam {
-    EXPIRED("6305", "864750"),
-    EXISTED("6311", "755444"),
+    EXPIRED("6305", "864750"), // истёк срок действия
+    EXISTED("6304", "012345"),
+
     NULL("", ""),
     UNKNOWN("1111", "111111"),
     INVALID_SERIES("1111", "111111"),

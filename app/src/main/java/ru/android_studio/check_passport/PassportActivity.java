@@ -111,7 +111,9 @@ public class PassportActivity extends AppCompatActivity implements View.OnClickL
         setupViewPager(viewPager);
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
-        tabLayout.setupWithViewPager(viewPager);
+        if (tabLayout != null) {
+            tabLayout.setupWithViewPager(viewPager);
+        }
 
         AnalyticsApplication application = (AnalyticsApplication) getApplication();
         mTracker = application.getDefaultTracker();
@@ -247,83 +249,87 @@ public class PassportActivity extends AppCompatActivity implements View.OnClickL
                 showCaptchaDialogFragment();
                 break;
             case R.id.check_btn:
-                try {
-                    passportFragment = (PassportFragment) adapter.getItem(0);
-                    EditText captchaEditText = captchaFragment.getCaptchaEditText();
-                    seriesEditText = passportFragment.getSeriesEditText();
-                    numberEditText = passportFragment.getNumberEditText();
-
-                    passport = new Passport();
-                    passport.setSeries(seriesEditText.getText().toString());
-                    passport.setNumber(numberEditText.getText().toString());
-                    passport.setCaptcha(captchaEditText.getText().toString());
-                    passport.setCookies(captchaFragment.getCookies());
-
-
-                    if (passport.getSeries().length() != 4 || passport.getNumber().length() != 6 || passport.getCaptcha().length() != 6) {
-                        Toast.makeText(this, getString(R.string.validation_error_msg), Toast.LENGTH_LONG).show();
-                        return;
-                    }
-
-                    String actionRequest = ActionTracker.REQUEST.name() + " " + passport.toString();
-                    Log.i(TAG, actionRequest);
-                    mTracker.send(new HitBuilders.EventBuilder()
-                            .setCategory(CategoryTracker.CHECK.name())
-                            .setAction(actionRequest)
-                            .build());
-
-                    /*
-                    * Делаем запрос в СМЭВ
-                    * */
-                    passport = getSmevService().request(passport);
-
-                    /*
-                    * Проверяем ответ
-                    * */
-                    if (passport == null || passport.getTypicalResponse() == null ||
-                            passport.getTypicalResponse() == TypicalResponse.CAPTCHA_NOT_VALID) {
-                        Log.i(TAG, ActionTracker.CAPTCHA_NOT_VALID.name());
-                        mTracker.send(new HitBuilders.EventBuilder()
-                                .setCategory(CategoryTracker.CHECK.name())
-                                .setAction(ActionTracker.CAPTCHA_NOT_VALID.name())
-                                .build());
-
-                        Toast.makeText(this, getString(R.string.toast_error_internet_unavailable), Toast.LENGTH_LONG).show();
-                        return;
-                    } else {
-                        String actionResponse = ActionTracker.RESPONSE.name() + " " + getString(passport.getTypicalResponse().getDescription());
-                        Log.i(TAG, actionResponse);
-                        mTracker.send(new HitBuilders.EventBuilder()
-                                .setCategory(CategoryTracker.CHECK.name())
-                                .setAction(actionResponse)
-                                .build());
-
-                        showResultDialogFragment();
-                    }
-
-                    historyFragment.addToHistoryList(passport);
-
-                    clear(seriesEditText, numberEditText, captchaEditText, captchaFragment);
-                } catch (NullPointerException e) {
-                    Log.e("NPE", e.getMessage());
-                }
+                check();
                 break;
-            case R.id.btnNewRequest:
-                Fragment prev = getSupportFragmentManager().findFragmentByTag("dlg_result_fragment");
-                if (prev != null) {
-                    DialogFragment df = (DialogFragment) prev;
-                    df.dismiss();
-                }
+            case R.id.new_request_btn:
+                newRequest("dlg_result_fragment");
                 break;
         }
     }
 
-    private void showResultDialogFragment() {
-        Fragment prev = getSupportFragmentManager().findFragmentByTag("dlg_captcha_fragment");
+    private void newRequest(String fragmentTag) {
+        Fragment prev = getSupportFragmentManager().findFragmentByTag(fragmentTag);
         if (prev != null) {
             DialogFragment df = (DialogFragment) prev;
             df.dismiss();
         }
+    }
+
+    private void check() {
+        try {
+            passportFragment = (PassportFragment) adapter.getItem(0);
+            EditText captchaEditText = captchaFragment.getCaptchaEditText();
+            seriesEditText = passportFragment.getSeriesEditText();
+            numberEditText = passportFragment.getNumberEditText();
+
+            passport = new Passport();
+            passport.setSeries(seriesEditText.getText().toString());
+            passport.setNumber(numberEditText.getText().toString());
+            passport.setCaptcha(captchaEditText.getText().toString());
+            passport.setCookies(captchaFragment.getCookies());
+
+
+            if (passport.getSeries().length() != 4 || passport.getNumber().length() != 6 || passport.getCaptcha().length() != 6) {
+                Toast.makeText(this, getString(R.string.validation_error_msg), Toast.LENGTH_LONG).show();
+                return;
+            }
+
+            String actionRequest = ActionTracker.REQUEST.name() + " " + passport.toString();
+            Log.i(TAG, actionRequest);
+            mTracker.send(new HitBuilders.EventBuilder()
+                    .setCategory(CategoryTracker.CHECK.name())
+                    .setAction(actionRequest)
+                    .build());
+
+            /*
+            * Делаем запрос в СМЭВ
+            * */
+            passport = getSmevService().request(passport);
+
+            /*
+            * Проверяем ответ
+            * */
+            if (passport == null || passport.getTypicalResponse() == null ||
+                    passport.getTypicalResponse() == TypicalResponse.CAPTCHA_NOT_VALID) {
+                Log.i(TAG, ActionTracker.CAPTCHA_NOT_VALID.name());
+                mTracker.send(new HitBuilders.EventBuilder()
+                        .setCategory(CategoryTracker.CHECK.name())
+                        .setAction(ActionTracker.CAPTCHA_NOT_VALID.name())
+                        .build());
+
+                Toast.makeText(this, getString(R.string.toast_error_internet_unavailable), Toast.LENGTH_LONG).show();
+                return;
+            } else {
+                String actionResponse = ActionTracker.RESPONSE.name() + " " + getString(passport.getTypicalResponse().getDescription());
+                Log.i(TAG, actionResponse);
+                mTracker.send(new HitBuilders.EventBuilder()
+                        .setCategory(CategoryTracker.CHECK.name())
+                        .setAction(actionResponse)
+                        .build());
+
+                showResultDialogFragment();
+            }
+
+            historyFragment.addToHistoryList(passport);
+
+            clear(seriesEditText, numberEditText, captchaEditText, captchaFragment);
+        } catch (NullPointerException e) {
+            Log.e("NPE", e.getMessage());
+        }
+    }
+
+    private void showResultDialogFragment() {
+        newRequest("dlg_captcha_fragment");
 
         ResultFragment resultFragment = new ResultFragment();
         resultFragment.show(getSupportFragmentManager(), "dlg_result_fragment");

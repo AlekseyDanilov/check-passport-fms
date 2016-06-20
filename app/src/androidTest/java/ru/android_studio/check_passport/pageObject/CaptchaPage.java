@@ -1,6 +1,7 @@
 package ru.android_studio.check_passport.pageObject;
 
 import android.app.Activity;
+import android.support.test.espresso.NoMatchingRootException;
 import android.support.test.espresso.assertion.ViewAssertions;
 import android.support.test.espresso.matcher.ViewMatchers;
 
@@ -15,7 +16,13 @@ import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static android.support.test.espresso.action.ViewActions.pressBack;
 import static android.support.test.espresso.action.ViewActions.typeText;
+import static android.support.test.espresso.assertion.ViewAssertions.doesNotExist;
+import static android.support.test.espresso.matcher.RootMatchers.withDecorView;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static junit.framework.Assert.assertTrue;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.not;
 
 /**
  * Страница с кодом подтверждения от ФМС
@@ -33,6 +40,19 @@ public class CaptchaPage extends AbstractPage {
 
     public void isDisplayed() {
         onView(withId(getId())).check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
+    }
+
+    public void isToastInvalidDisplayed() {
+        boolean exceptionCaptured = true;
+        try {
+            onView(withText(R.string.toast_error_captcha_not_valid)).inRoot(withDecorView(not(is(activity.getWindow().getDecorView()))))
+                    .check(doesNotExist());
+
+        } catch (NoMatchingRootException e) {
+            exceptionCaptured = false;
+        } finally {
+            assertTrue(exceptionCaptured);
+        }
     }
 
     @Override

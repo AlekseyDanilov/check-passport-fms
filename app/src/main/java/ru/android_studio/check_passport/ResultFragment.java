@@ -38,7 +38,7 @@ public class ResultFragment extends DialogFragment {
         resultTextView.setText(getString(passport.getTypicalResponse().getDescription()));
         resultTextView.setTextColor(typicalResponse.getColor(inflater.getContext()));
 
-        view.findViewById(R.id.btnNewRequest).setOnClickListener(passportActivity);
+        view.findViewById(R.id.new_request_btn).setOnClickListener(passportActivity);
         return view;
     }
 
