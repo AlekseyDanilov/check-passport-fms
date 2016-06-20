@@ -9,7 +9,7 @@ public abstract class AbstractPage {
 
     protected abstract int getId();
 
-    protected Activity activity;
+    private Activity activity;
 
     public AbstractPage(Activity activity) {
         this.activity = activity;

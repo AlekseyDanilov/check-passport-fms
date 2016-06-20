@@ -27,40 +27,40 @@ public class RequestPage extends AbstractPage {
      * Переход на страницу истории
      * */
     public void swipeToHistoryPage() {
-        Spoon.screenshot(activity, "before_swipe_left");
+        Spoon.screenshot(getActivity(), "before_swipe_left");
         onView(withId(getId()))
                 .perform(actionWithAssertions(swipeLeft()));
-        Spoon.screenshot(activity, "after_swipe_left");
+        Spoon.screenshot(getActivity(), "after_swipe_left");
     }
 
     /**
      * Написать 'Серия'
      * */
     public void writeSeries(RequestParam requestParam) {
-        Spoon.screenshot(activity, "before_series");
+        Spoon.screenshot(getActivity(), "before_series");
         onView(withId(R.id.series))
                 .perform(actionWithAssertions(typeText(requestParam.getSeries())), closeSoftKeyboard());
-        Spoon.screenshot(activity, "after_series");
+        Spoon.screenshot(getActivity(), "after_series");
     }
 
     /**
      * Написать 'Номер'
      * */
     public void writeNumber(RequestParam requestParam) {
-        Spoon.screenshot(activity, "before_write_number");
+        Spoon.screenshot(getActivity(), "before_write_number");
         onView(withId(R.id.number))
                 .perform(actionWithAssertions(typeText(requestParam.getNumber())), closeSoftKeyboard());
-        Spoon.screenshot(activity, "after_write_number");
+        Spoon.screenshot(getActivity(), "after_write_number");
     }
 
     /**
      * Нажать на кнопку "Запроса'
      * */
     public void clickRequestBtn() {
-        Spoon.screenshot(activity, "before_click_request_btn");
+        Spoon.screenshot(getActivity(), "before_click_request_btn");
         onView(withId(R.id.request_btn))
                 .perform(actionWithAssertions(click()));
-        Spoon.screenshot(activity, "after_click_request_btn");
+        Spoon.screenshot(getActivity(), "after_click_request_btn");
     }
 
     @Override

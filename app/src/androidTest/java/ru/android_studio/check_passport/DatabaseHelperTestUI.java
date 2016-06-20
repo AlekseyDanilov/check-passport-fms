@@ -1,5 +1,6 @@
 package ru.android_studio.check_passport;
 
+import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Test;
 
 import java.util.AbstractList;
@@ -21,7 +22,7 @@ public class DatabaseHelperTestUI extends TestUI<PassportActivity> {
     public void testInsert() throws Exception {
         database.clear();
 
-        database.insert("6306", "864750", TypicalResponse.UNKNOWN.getResult());
+        database.insert(RandomStringUtils.randomNumeric(4), RandomStringUtils.randomNumeric(6), TypicalResponse.UNKNOWN.getResult());
 
         AbstractList<Passport> expenseTypes = database.getAll();
         assertThat(expenseTypes.size(), is(1));
@@ -34,11 +35,11 @@ public class DatabaseHelperTestUI extends TestUI<PassportActivity> {
     public void testInsertFewRow() throws Exception {
         database.clear();
 
-        database.insert("6306", "864750", TypicalResponse.UNKNOWN.getResult());
-        database.insert("6306", "864750", TypicalResponse.UNKNOWN.getResult());
-        database.insert("6306", "864750", TypicalResponse.UNKNOWN.getResult());
-        database.insert("6306", "864750", TypicalResponse.UNKNOWN.getResult());
-        database.insert("6306", "864750", TypicalResponse.UNKNOWN.getResult());
+        database.insert(RandomStringUtils.randomNumeric(4), RandomStringUtils.randomNumeric(6), TypicalResponse.UNKNOWN.getResult());
+        database.insert(RandomStringUtils.randomNumeric(4), RandomStringUtils.randomNumeric(6), TypicalResponse.UNKNOWN.getResult());
+        database.insert(RandomStringUtils.randomNumeric(4), RandomStringUtils.randomNumeric(6), TypicalResponse.UNKNOWN.getResult());
+        database.insert(RandomStringUtils.randomNumeric(4), RandomStringUtils.randomNumeric(6), TypicalResponse.UNKNOWN.getResult());
+        database.insert(RandomStringUtils.randomNumeric(4), RandomStringUtils.randomNumeric(6), TypicalResponse.UNKNOWN.getResult());
 
         AbstractList<Passport> expenseTypes = database.getAll();
         assertThat(expenseTypes.size(), is(5));

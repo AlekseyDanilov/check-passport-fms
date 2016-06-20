@@ -45,7 +45,7 @@ public class CaptchaPage extends AbstractPage {
     public void isToastInvalidDisplayed() {
         boolean exceptionCaptured = true;
         try {
-            onView(withText(R.string.toast_error_captcha_not_valid)).inRoot(withDecorView(not(is(activity.getWindow().getDecorView()))))
+            onView(withText(R.string.toast_error_captcha_not_valid)).inRoot(withDecorView(not(is(getActivity().getWindow().getDecorView()))))
                     .check(doesNotExist());
 
         } catch (NoMatchingRootException e) {
@@ -61,14 +61,14 @@ public class CaptchaPage extends AbstractPage {
     }
 
     public void writeCaptcha(CaptchaParam captchaParam) {
-        Spoon.screenshot(activity, "before_write_number");
+        Spoon.screenshot(getActivity(), "before_write_number");
         onView(withId(R.id.captcha_et)).perform(actionWithAssertions(typeText(captchaParam.getNumber())), closeSoftKeyboard());
-        Spoon.screenshot(activity, "after_write_number");
+        Spoon.screenshot(getActivity(), "after_write_number");
     }
 
     public void clickCheckCaptchaBtn() {
-        Spoon.screenshot(activity, "before_click_request_btn");
+        Spoon.screenshot(getActivity(), "before_click_request_btn");
         onView(withId(R.id.check_btn)).perform(actionWithAssertions(click()));
-        Spoon.screenshot(activity, "after_click_request_btn");
+        Spoon.screenshot(getActivity(), "after_click_request_btn");
     }
 }

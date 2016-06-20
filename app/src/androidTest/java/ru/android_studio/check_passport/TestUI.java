@@ -28,7 +28,7 @@ public class TestUI<T extends Activity> {
     @Rule
     public ActivityTestRule<T> activityTestRule = new ActivityTestRule<T>(clazz());
 
-    protected Class<T> clazz() {
+    private Class<T> clazz() {
         return (Class<T>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
     }
 
