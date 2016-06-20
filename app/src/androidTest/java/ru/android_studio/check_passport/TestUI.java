@@ -1,5 +1,6 @@
 package ru.android_studio.check_passport;
 
+import android.app.Activity;
 import android.graphics.Point;
 import android.os.RemoteException;
 import android.support.test.InstrumentationRegistry;
@@ -12,20 +13,26 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.runner.RunWith;
 
+import java.lang.reflect.ParameterizedType;
+
 import ru.android_studio.check_passport.pageObject.CaptchaPage;
 import ru.android_studio.check_passport.pageObject.HistoryPage;
 import ru.android_studio.check_passport.pageObject.RequestPage;
 
 /**
- * Created by y.andreev on 19.06.2016.
+ * Класс предоставляет осномные возможности необходимые для тестирования интерфейса
  */
 @RunWith(AndroidJUnit4.class)
-public class MainTest {
+public class TestUI<T extends Activity> {
 
     @Rule
-    public ActivityTestRule<PassportActivity> activityActivityTestRule = new ActivityTestRule<>(PassportActivity.class);
+    private ActivityTestRule<T> activityTestRule = new ActivityTestRule<T>(clazz());
 
-    protected PassportActivity activity;
+    protected Class<T> clazz() {
+        return (Class<T>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
+    }
+
+    protected Activity activity;
 
     protected CaptchaPage captchaPage;
     protected RequestPage requestPage;
@@ -44,7 +51,7 @@ public class MainTest {
     * Оживляем телефон прежде чем запустить тест
     * */
     private void load() {
-        activity = activityActivityTestRule.getActivity();
+        activity = activityTestRule.getActivity();
 
         // init Page objects
         captchaPage = new CaptchaPage(activity);

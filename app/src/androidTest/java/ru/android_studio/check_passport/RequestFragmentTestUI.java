@@ -9,7 +9,7 @@ import ru.android_studio.check_passport.data.RequestParam;
 /**
  * Тестирование страницы запроса
  */
-public class RequestFragmentTest extends MainTest {
+public class RequestFragmentTestUI extends TestUI<PassportActivity>  {
 
     /*
     *   Тестирование загрузки капчи

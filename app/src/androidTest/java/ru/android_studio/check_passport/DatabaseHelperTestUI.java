@@ -12,9 +12,9 @@ import static org.junit.Assert.assertThat;
 /*
 * Тестирования взаимодействия с БД
 * */
-public class DatabaseHelperTest extends MainTest {
+public class DatabaseHelperTestUI extends TestUI<PassportActivity> {
 
-    /**
+        /**
      * Добавить одну строку в БД
      */
     @Test

@@ -13,7 +13,7 @@ import static org.junit.Assert.assertThat;
 /**
  * Тестирование страницы кода подтверждения
  */
-public class CaptchaFragmentTest extends MainTest {
+public class CaptchaFragmentTestUI extends TestUI<PassportActivity> {
 
     /*
     *   Тестирование загрузки капчи и ввод неправильного номера
