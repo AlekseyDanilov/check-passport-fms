@@ -1,3 +1,6 @@
+[![Build Status](https://travis-ci.org/android-group/check-passport-fms.svg?branch=master)](https://travis-ci.org/android-group/check-passport-fms)
+
+
 # check-passport-fms
 Проверка номера паспорта ФМС
 
