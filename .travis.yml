@@ -1,0 +1,14 @@
+language: android
+before_install:
+  - chmod +x gradlew
+after_failure:
+  - cat /home/travis/build/android-group/gibdd-service/app/build/outputs/lint-results-debug.xml
+  - cat /home/travis/build/android-group/gibdd-service/app/build/outputs/lint-results-debug.html
+  - cat /home/travis/build/android-group/gibdd-service/app/build/reports/tests/debug/index.html
+android:
+  components:
+    - tools
+    - platform-tools
+    - build-tools-23.0.3
+    - android-23
+    - extra-android-m2repository
