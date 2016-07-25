@@ -20,3 +20,4 @@ android:
     - extra-android-m2repository
     - extra-google-google_play_services
     - extra-google-m2repository
+    - sys-img-armeabi-v7a-android-23
