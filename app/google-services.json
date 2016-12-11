@@ -1,45 +1,94 @@
 {
   "project_info": {
-    "project_id": "check-passport",
-    "project_number": "111159582849",
-    "name": "Check passport"
+    "project_number": "74926271214",
+    "firebase_url": "https://api-8323200757949193714-998457.firebaseio.com",
+    "project_id": "api-8323200757949193714-998457",
+    "storage_bucket": "api-8323200757949193714-998457.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:111159582849:android:701ea817021a0fc1",
-        "client_id": "android:ru.android_studio.check_passport",
-        "client_type": 1,
+        "mobilesdk_app_id": "1:74926271214:android:eaf33ee4a3ba6cbc",
+        "android_client_info": {
+          "package_name": "ru.android_studio.gibdd_servis"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "74926271214-67preipq6a7dblf7cpjbdo9u07gfq5om.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "ru.android_studio.gibdd_servis",
+            "certificate_hash": "265E3F149D8F00B7152AA95BEB72AC55A6F54229"
+          }
+        },
+        {
+          "client_id": "74926271214-nvsvvoe0u7j48t7kgc5km2dqmodk8qf5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDQlEbJ1tsfV105TeUb8iut2RirsJW0P98"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "74926271214-nvsvvoe0u7j48t7kgc5km2dqmodk8qf5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:74926271214:android:c513ed0773cf18a9",
         "android_client_info": {
           "package_name": "ru.android_studio.check_passport"
         }
       },
-      "oauth_client": [],
-      "api_key": [],
-      "services": {
-        "analytics_service": {
-          "status": 2,
-          "analytics_property": {
-            "tracking_id": "UA-47698668-2"
+      "oauth_client": [
+        {
+          "client_id": "74926271214-2us9bt3naie0hquhmdjd4rjjv758ekol.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "ru.android_studio.check_passport",
+            "certificate_hash": "D9BE747E434F1F6FA318AD451AB2AE3E930FE65A"
           }
         },
-        "cloud_messaging_service": {
-          "status": 1,
-          "apns_config": []
+        {
+          "client_id": "74926271214-nvsvvoe0u7j48t7kgc5km2dqmodk8qf5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDQlEbJ1tsfV105TeUb8iut2RirsJW0P98"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
         },
         "appinvite_service": {
           "status": 1,
           "other_platform_oauth_client": []
         },
-        "google_signin_service": {
-          "status": 1
-        },
         "ads_service": {
-          "status": 1
+          "status": 2
         }
       }
     }
   ],
-  "client_info": [],
-  "ARTIFACT_VERSION": "1"
+  "configuration_version": "1"
 }

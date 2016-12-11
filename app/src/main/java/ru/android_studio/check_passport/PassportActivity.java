@@ -22,12 +22,9 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.google.android.gms.analytics.HitBuilders;
-import com.google.android.gms.analytics.Tracker;
-import com.google.android.gms.appindexing.Action;
-import com.google.android.gms.appindexing.AndroidAppUri;
-import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.firebase.crash.FirebaseCrash;
+
 import ru.android_studio.check_passport.model.Series;
 import ru.android_studio.check_passport.model.TypicalResponse;
 import ru.android_studio.check_passport.validation.CheckSeriesService;
@@ -46,13 +43,8 @@ public class PassportActivity extends AppCompatActivity implements View.OnClickL
     private CheckSeriesService checkSeriesService = CheckSeriesService.getInstance();
     private ViewPagerAdapter adapter;
 
-    static final Uri APP_URI = Uri.parse("android-app://ru.android_studio.check_passport/http/android-studio.ru/app");
-    static final Uri WEB_URL = Uri.parse("http://android-studio.ru/app/");
-    private GoogleApiClient mClient;
-
     private Passport passport;
     private SmevService smevService;
-    private Tracker mTracker;
 
     public SmevService getSmevService() {
         if (smevService == null) {
@@ -83,10 +75,6 @@ public class PassportActivity extends AppCompatActivity implements View.OnClickL
         switch (item.getItemId()) {
             case R.id.menu_share:
                 Log.i(TAG, CategoryTracker.SHARE_LINK.name());
-                mTracker.send(new HitBuilders.EventBuilder()
-                        .setCategory(CategoryTracker.SHARE_LINK.name())
-                        .setAction(ActionTracker.CLICK.name())
-                        .build());
 
                 String title = getString(R.string.app_name);
                 String text = getString(R.string.share_msg);
@@ -115,36 +103,7 @@ public class PassportActivity extends AppCompatActivity implements View.OnClickL
             tabLayout.setupWithViewPager(viewPager);
         }
 
-        AnalyticsApplication application = (AnalyticsApplication) getApplication();
-        mTracker = application.getDefaultTracker();
-
         Log.i(TAG, CategoryTracker.APPLICATION.name());
-        mTracker.send(new HitBuilders.EventBuilder()
-                .setCategory(CategoryTracker.APPLICATION.name())
-                .setAction(ActionTracker.STARTED.name()).build());
-
-        mClient = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
-
-        Uri referrerUri = this.getReferrer();
-        if (referrerUri != null) {
-            if (referrerUri.getScheme().equals("http") || referrerUri.getScheme().equals("https")) {
-                Log.i(TAG, CategoryTracker.REFERRER.name());
-                mTracker.send(new HitBuilders.EventBuilder()
-                        .setCategory(CategoryTracker.REFERRER.name())
-                        .setAction(ActionTracker.CLICK_FROM_WEB_SEARCH.name()).build());
-
-            } else if (referrerUri.getScheme().equals("android-app")) {
-                AndroidAppUri appUri = AndroidAppUri.newAndroidAppUri(referrerUri);
-                String referrerPackage = appUri.getPackageName();
-                if ("com.google.android.googlequicksearchbox".equals(referrerPackage)) {
-                    Log.i(TAG, CategoryTracker.REFERRER.name());
-                    mTracker.send(new HitBuilders.EventBuilder()
-                            .setCategory(CategoryTracker.REFERRER.name())
-                            .setAction(ActionTracker.CLICK_FROM_GOOGLE_APP.name()).build());
-
-                }
-            }
-        }
     }
 
     /** Returns the referrer who started this Activity. */
@@ -173,36 +132,6 @@ public class PassportActivity extends AppCompatActivity implements View.OnClickL
             }
         }
         return null;
-    }
-
-    @Override
-    public void onStop() {
-        // Define a title for your current page, shown in autocompletion UI
-        String title = getString(R.string.app_name);
-
-        // Call end() and disconnect the client
-        Action viewAction = Action.newAction(Action.TYPE_VIEW, title, WEB_URL, APP_URI);
-        AppIndex.AppIndexApi.end(mClient, viewAction);
-        mClient.disconnect();
-
-        super.onStop();
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-
-        // Connect your client
-        mClient.connect();
-
-        // Define a title for your current page, shown in autocompletion UI
-        String title = getString(R.string.app_name);
-
-        // Construct the Action performed by the user
-        Action viewAction = Action.newAction(Action.TYPE_VIEW, title, WEB_URL, APP_URI);
-
-        // Call the App Indexing API start method after the view has completely rendered
-        AppIndex.AppIndexApi.start(mClient, viewAction);
     }
 
     private void setupViewPager(ViewPager viewPager) {
@@ -286,10 +215,6 @@ public class PassportActivity extends AppCompatActivity implements View.OnClickL
 
             String actionRequest = ActionTracker.REQUEST.name() + " " + passport.toString();
             Log.i(TAG, actionRequest);
-            mTracker.send(new HitBuilders.EventBuilder()
-                    .setCategory(CategoryTracker.CHECK.name())
-                    .setAction(actionRequest)
-                    .build());
 
             /*
             * Делаем запрос в СМЭВ
@@ -302,21 +227,11 @@ public class PassportActivity extends AppCompatActivity implements View.OnClickL
             if (passport == null || passport.getTypicalResponse() == null ||
                     passport.getTypicalResponse() == TypicalResponse.CAPTCHA_NOT_VALID) {
                 Log.i(TAG, ActionTracker.CAPTCHA_NOT_VALID.name());
-                mTracker.send(new HitBuilders.EventBuilder()
-                        .setCategory(CategoryTracker.CHECK.name())
-                        .setAction(ActionTracker.CAPTCHA_NOT_VALID.name())
-                        .build());
-
                 Toast.makeText(this, getString(R.string.toast_error_internet_unavailable), Toast.LENGTH_LONG).show();
                 return;
             } else {
                 String actionResponse = ActionTracker.RESPONSE.name() + " " + getString(passport.getTypicalResponse().getDescription());
                 Log.i(TAG, actionResponse);
-                mTracker.send(new HitBuilders.EventBuilder()
-                        .setCategory(CategoryTracker.CHECK.name())
-                        .setAction(actionResponse)
-                        .build());
-
                 showResultDialogFragment();
             }
 

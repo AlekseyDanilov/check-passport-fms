@@ -31,7 +31,6 @@ public class CaptchaFragment extends DialogFragment implements View.OnClickListe
 
     private static final String SERVICE_CAPTCHA = "http://services.fms.gov.ru/services/captcha.jpg";
     private static final String TAG = "CaptchaFragment";
-    private static final String DEBUG_TAG = "DEBUG_TAG CaptchaFragment";
 
     private PassportActivity passportActivity;
     private ImageView captchaImageView;
